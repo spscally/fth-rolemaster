@@ -13,3 +13,4 @@ __pycache__/
 
 # project-specific
 reports/
+data.json

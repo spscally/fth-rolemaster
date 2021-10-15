@@ -1,3 +1,4 @@
+import json
 import os
 
 from scrapy.http import HtmlResponse
@@ -27,20 +28,38 @@ def getMemberRoles(html):
             continue
 
         data = r.css('td::text').getall()
+
+        date = None
+        role = None
+
         if newPerson:
             name = data[0]
-            memberRoles[name] = [
-                {data[1]: data[2].strip()}
-            ]
+            memberRoles[name] = []
             newPerson = False
+            date = data[1]
+            role = data[2]
         else:
-            memberRoles[name].append({
-                data[0]: data[1].strip()
-            })
+            date = data[0]
+            role = data[1]
 
-    print(memberRoles)
+        role = role.strip()
+        if role.find("Speaker") != -1:
+            role = "Speaker"
+        elif role.find("Evaluator") != -1:
+            role = "Evaluator"
+        elif role == "Presiding Officer":
+            continue
+
+        memberRoles[name].append({date: role})
+
+    return memberRoles
 
 
-# TODO: figure out the algorithm and data structure needed for calcing rolemaster
 report = getMostRecentReport()
-getMemberRoles(report)
+memberRoles = getMemberRoles(report)
+print(json.dumps(memberRoles, indent=2))
+# for m in memberRoles:
+# TODO: implement
+# construct member's graph
+# list all paths from START to END
+# get longest path
