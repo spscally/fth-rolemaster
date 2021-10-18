@@ -55,11 +55,32 @@ def getMemberRoles(html):
     return memberRoles
 
 
+def calculateRolemaster(remaining, used):
+
+    # TODO: test that this is correct
+    # TODO: check for role already being used
+    if len(remaining) == 0:
+        print(used)
+        return used
+
+    thisMeeting = []
+
+    # TODO: revamp data structure so I don't have to use this atrocity
+    date = list(remaining[0].keys())[0]
+    while True:
+        thisMeeting.append(remaining[0])
+        remaining = remaining[1:]
+        if len(remaining) == 0 or list(remaining[0].keys())[0] != date:
+            break
+
+    for m in thisMeeting:
+        newUsed = used
+        newUsed.append(m)
+        return calculateRolemaster(remaining, newUsed)
+
+
 report = getMostRecentReport()
 memberRoles = getMemberRoles(report)
-print(json.dumps(memberRoles, indent=2))
-# for m in memberRoles:
-# TODO: implement
-# construct member's graph
-# list all paths from START to END
-# get longest path
+
+for member in memberRoles:
+    calculateRolemaster(memberRoles[member], [])
