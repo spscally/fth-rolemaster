@@ -34,7 +34,7 @@ def getMemberRoles(html):
 
         if newPerson:
             name = data[0]
-            memberRoles[name] = []
+            memberRoles[name] = {}
             newPerson = False
             date = data[1]
             role = data[2]
@@ -50,37 +50,35 @@ def getMemberRoles(html):
         elif role == "Presiding Officer":
             continue
 
-        memberRoles[name].append({date: role})
+        if memberRoles[name].get(date) is None:
+            memberRoles[name][date] = []
+        memberRoles[name][date].append(role)
 
     return memberRoles
 
 
-def calculateRolemaster(remaining, used):
+def calculateRolemaster(name, remaining, used):
 
-    # TODO: test that this is correct
-    # TODO: check for role already being used
     if len(remaining) == 0:
-        print(used)
+        print(f'{name} : {used}')
         return used
 
-    thisMeeting = []
+    date = list(remaining.keys())[0]
+    for role in remaining[date]:
 
-    # TODO: revamp data structure so I don't have to use this atrocity
-    date = list(remaining[0].keys())[0]
-    while True:
-        thisMeeting.append(remaining[0])
-        remaining = remaining[1:]
-        if len(remaining) == 0 or list(remaining[0].keys())[0] != date:
-            break
+        newUsed = used.copy()
+        newRemaining = remaining.copy()
+        newRemaining.pop(date)
 
-    for m in thisMeeting:
-        newUsed = used
-        newUsed.append(m)
-        return calculateRolemaster(remaining, newUsed)
+        if used.get(role) is None:
+            newUsed[role] = date
+
+        calculateRolemaster(name, newRemaining, newUsed)
 
 
 report = getMostRecentReport()
 memberRoles = getMemberRoles(report)
 
+# TODO: figure out how to get the longest list of roles
 for member in memberRoles:
-    calculateRolemaster(memberRoles[member], [])
+    calculateRolemaster(member, memberRoles[member], {})
