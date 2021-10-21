@@ -13,4 +13,6 @@ __pycache__/
 
 # project-specific
 reports/
+tt/
 data.json
+scratch.txt
