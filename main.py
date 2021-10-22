@@ -1,5 +1,8 @@
 import json
 import os
+import smtplib
+
+from email.message import EmailMessage
 
 from scrapy.http import HtmlResponse
 from scrapy.selector import Selector
@@ -118,21 +121,21 @@ def calculateRolemaster(name, remaining, used):
         calculateRolemaster(name, newRemaining, newUsed)
 
 
-def addMissing(memberRoles):
-    for member in memberRoles:
+def addMissing(progress):
+    for member in progress:
         for role in ROLES:
-            if memberRoles[member].get(role) is None:
-                memberRoles[member][role] = "TODO"
-    return memberRoles
+            if progress[member].get(role) is None:
+                progress[member][role] = "TODO"
+    return progress
 
 
-def printCurrentLeader(memberRoles):
+def printCurrentLeader(progress):
     names = []
     max = -1
-    for member in memberRoles:
+    for member in progress:
         count = 0
-        for role in memberRoles[member]:
-            if memberRoles[member][role] != "TODO":
+        for role in progress[member]:
+            if progress[member][role] != "TODO":
                 count += 1
         if count > max:
             max = count
@@ -145,18 +148,34 @@ def printCurrentLeader(memberRoles):
         print(f' - {name}: {max}')
 
 
-def printRolesByDone(memberRoles):
+def printRolesByDone(progress):
     roleCounts = {}
     for role in ROLES:
         roleCounts[role] = 0
-    for member in memberRoles:
-        for role in memberRoles[member]:
-            if memberRoles[member][role] != "TODO":
+    for member in progress:
+        for role in progress[member]:
+            if progress[member][role] != "TODO":
                 roleCounts[role] += 1
 
     print("ROLE COUNTS:")
     for role in roleCounts:
         print(f' - {role}: {roleCounts[role]}')
+
+
+def sendEmail(progress):
+    msg = EmailMessage()
+    msg.set_content(json.dumps(progress, indent=2))
+    msg['Subject'] = 'Rolemaster Test'
+    msg['From'] = ''  # TODO: fill in
+    msg['To'] = ''  # TODO: fill in
+
+    smtp = smtplib.SMTP('smtp.gmail.com', 587)
+    smtp.ehlo()
+    smtp.starttls()
+    smtp.ehlo()
+    smtp.login('', '')  # TODO: auth?
+    smtp.send_message(msg)
+    smtp.quit()
 
 
 report = getMostRecentReport()
@@ -168,10 +187,12 @@ memberRoles = addTableTopics(memberRoles)
 for member in memberRoles:
     calculateRolemaster(member, memberRoles[member], {})
 
-longest = addMissing(longest)
+progress = addMissing(longest)
 
 print(json.dumps(longest, indent=2))
 print("")
 printCurrentLeader(longest)
 print("")
 printRolesByDone(longest)
+
+# sendEmail(progress)
