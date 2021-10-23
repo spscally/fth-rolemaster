@@ -1,30 +1,18 @@
 import json
 import os
-import subprocess
+import smtplib
+
+from datetime import date
 
 from email.message import EmailMessage
 
 from scrapy.http import HtmlResponse
 
-REPORTS_DIR = "reports"
-TT_DIR = "./tt"
-
-ROLES = [
-    "Toastmaster",
-    "Humorist",
-    "Grammarian",
-    "Ah Counter",
-    "Timer",
-    "Speaker",
-    "Table Topics Master",
-    "General Evaluator",
-    "Evaluator",
-    "Table Topics"
-]
+import config
 
 
 def getMostRecentReportFileName():
-    reports = os.listdir(REPORTS_DIR)
+    reports = os.listdir(config.REPORTS_DIR)
     reports.sort()
     return reports[-1]
 
@@ -33,7 +21,7 @@ def getMostRecentReportFileName():
 def getMostRecentReport():
     file = getMostRecentReportFileName()
     contents = ''
-    with open(f'{REPORTS_DIR}/{file}') as f:
+    with open(f'{config.REPORTS_DIR}/{file}') as f:
         contents = f.read()
     return contents
 
@@ -89,7 +77,7 @@ longest = {}
 # manually-created txt file
 # format per line: YYYY-MM-DD FirstName LastName
 def addTableTopics(memberRoles):
-    with open(f'{TT_DIR}/tt.txt') as f:
+    with open(f'{config.TT_DIR}/tt.txt') as f:
         lines = f.readlines()
         for line in lines:
             line = line.replace('\n', '')
@@ -127,7 +115,7 @@ def calculateRolemaster(name, remaining, used):
 
 def addMissing(progress):
     for member in progress:
-        for role in ROLES:
+        for role in config.ROLES:
             if progress[member].get(role) is None:
                 progress[member][role] = "TODO"
     return progress
@@ -154,7 +142,7 @@ def printCurrentLeader(progress):
 
 def printRolesByDone(progress):
     roleCounts = {}
-    for role in ROLES:
+    for role in config.ROLES:
         roleCounts[role] = 0
     for member in progress:
         for role in progress[member]:
@@ -164,6 +152,27 @@ def printRolesByDone(progress):
     print("ROLE COUNTS:")
     for role in roleCounts:
         print(f' - {role}: {roleCounts[role]}')
+
+
+def generateEmail(progress):
+    return 'hello world'
+
+
+def sendEmail(content):
+    msg = EmailMessage()
+    msg.set_content(content)
+    today = date.today()
+    msg['Subject'] = f'Rolemaster Report - {today.month}/{today.day}/{today.year}'
+    msg['From'] = config.FROM_EMAIL
+    msg['To'] = config.TO_EMAIL
+
+    smtp = smtplib.SMTP('smtp.gmail.com', 587)
+    smtp.ehlo()
+    smtp.starttls()
+    smtp.ehlo()
+    smtp.login(config.FROM_EMAIL, config.PASSWORD)
+    smtp.send_message(msg)
+    smtp.quit()
 
 
 report = getMostRecentReport()
@@ -184,4 +193,4 @@ print("")
 printRolesByDone(longest)
 
 # TODO: generate the HTML
-# TODO: add the email code back. where to store pwd?
+sendEmail(json.dumps(longest, indent=2))
