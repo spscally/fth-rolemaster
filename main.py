@@ -1,13 +1,12 @@
 import json
 import os
-import smtplib
+import subprocess
 
 from email.message import EmailMessage
 
 from scrapy.http import HtmlResponse
-from scrapy.selector import Selector
 
-REPORTS_DIR = "./reports"
+REPORTS_DIR = "reports"
 TT_DIR = "./tt"
 
 ROLES = [
@@ -24,14 +23,19 @@ ROLES = [
 ]
 
 
-# HTML report from FTH
-def getMostRecentReport():
+def getMostRecentReportFileName():
     reports = os.listdir(REPORTS_DIR)
     reports.sort()
-    file = ''
-    with open(f'{REPORTS_DIR}/{reports[-1]}') as f:
-        file = f.read()
-    return file
+    return reports[-1]
+
+
+# HTML report from FTH
+def getMostRecentReport():
+    file = getMostRecentReportFileName()
+    contents = ''
+    with open(f'{REPORTS_DIR}/{file}') as f:
+        contents = f.read()
+    return contents
 
 
 def getMemberRoles(html):
@@ -162,22 +166,6 @@ def printRolesByDone(progress):
         print(f' - {role}: {roleCounts[role]}')
 
 
-def sendEmail(progress):
-    msg = EmailMessage()
-    msg.set_content(json.dumps(progress, indent=2))
-    msg['Subject'] = 'Rolemaster Test'
-    msg['From'] = ''  # TODO: fill in
-    msg['To'] = ''  # TODO: fill in
-
-    smtp = smtplib.SMTP('smtp.gmail.com', 587)
-    smtp.ehlo()
-    smtp.starttls()
-    smtp.ehlo()
-    smtp.login('', '')  # TODO: auth?
-    smtp.send_message(msg)
-    smtp.quit()
-
-
 report = getMostRecentReport()
 memberRoles = getMemberRoles(report)
 if memberRoles.get('Guest'):
@@ -195,4 +183,8 @@ printCurrentLeader(longest)
 print("")
 printRolesByDone(longest)
 
-# sendEmail(progress)
+# TODO: generate the HTML
+# TODO: open the HTML in chrome
+
+# subprocess.run(
+# ["Start-Process", "chrome.exe", f'{REPORTS_DIR}/{getMostRecentReportFileName()}'])
