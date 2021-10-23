@@ -1,0 +1,3 @@
+FROM_EMAIL = ''
+PASSWORD = ''
+TO_EMAIL = ''
