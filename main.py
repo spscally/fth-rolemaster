@@ -184,7 +184,4 @@ print("")
 printRolesByDone(longest)
 
 # TODO: generate the HTML
-# TODO: open the HTML in chrome
-
-# subprocess.run(
-# ["Start-Process", "chrome.exe", f'{REPORTS_DIR}/{getMostRecentReportFileName()}'])
+# TODO: add the email code back. where to store pwd?
