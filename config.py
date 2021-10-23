@@ -13,3 +13,5 @@ ROLES = [
     "Evaluator",
     "Table Topics"
 ]
+
+PADDING = '10px'
