@@ -9,6 +9,7 @@ from email.message import EmailMessage
 from scrapy.http import HtmlResponse
 
 import config
+import secrets
 
 
 def getMostRecentReportFileName():
@@ -163,14 +164,14 @@ def sendEmail(content):
     msg.set_content(content)
     today = date.today()
     msg['Subject'] = f'Rolemaster Report - {today.month}/{today.day}/{today.year}'
-    msg['From'] = config.FROM_EMAIL
-    msg['To'] = config.TO_EMAIL
+    msg['From'] = secrets.FROM_EMAIL
+    msg['To'] = secrets.TO_EMAIL
 
     smtp = smtplib.SMTP('smtp.gmail.com', 587)
     smtp.ehlo()
     smtp.starttls()
     smtp.ehlo()
-    smtp.login(config.FROM_EMAIL, config.PASSWORD)
+    smtp.login(secrets.FROM_EMAIL, secrets.PASSWORD)
     smtp.send_message(msg)
     smtp.quit()
 
