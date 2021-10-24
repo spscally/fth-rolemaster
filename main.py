@@ -211,6 +211,7 @@ def generateEmail(progress):
         is_even = not is_even
     html += '</table>\n'
     html += '<br>\n'
+    html += f'<p>For any questions/comments/concerns/suggestions, please reach out to <a href="mailto:{secrets.SUPPORT_EMAIL}">{secrets.SUPPORT_EMAIL}</a>.</p>\n'
     return html
 
 
@@ -245,6 +246,3 @@ progress = addMissing(longest)
 
 content = generateEmail(progress)
 sendEmail(content)
-
-# TODO: add support message (to contact me)
-# TODO: add info about how this was calculated
