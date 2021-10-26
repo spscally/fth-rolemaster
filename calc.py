@@ -4,8 +4,10 @@ import reports
 from scrapy.http import HtmlResponse
 
 
-# Object to perform the Rolemaster calculation and to store any needed metadata.
 class RolemasterCalculator:
+    """
+    Object to perform Rolemaster calculation and to store any needed metadata.
+    """
 
     # Raw contents of the Member Role Report HTML file
     role_report = ''
