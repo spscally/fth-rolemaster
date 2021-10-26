@@ -1,3 +1,4 @@
 FROM_EMAIL = ''
 PASSWORD = ''
 TO_EMAIL = ''
+SUPPORT_EMAIL = ''
