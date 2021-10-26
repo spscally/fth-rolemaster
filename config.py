@@ -1,6 +1,10 @@
+# Directory that the Member Role Reports are stored in
 REPORTS_DIR = "./reports"
+
+# Directory that the tt.txt file is stored in
 TT_DIR = "./tt"
 
+# List of roles to count for the award
 ROLES = [
     "Toastmaster",
     "Humorist",
@@ -14,4 +18,5 @@ ROLES = [
     "Table Topics"
 ]
 
+# Padding of various HTML elements in the generated email
 PADDING = '10px'

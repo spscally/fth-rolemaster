@@ -7,12 +7,15 @@ import config
 import secrets
 
 
-# Generates the HTML for the email given the title, list of leaders, leaders'
-# role count (i.e. how many of the roles they have done) and the progress
-# object.
-#
-# Uses in-line style attrs since many email clients block script tags.
 def generateEmail(title, leaders, leaders_role_count, progress):
+    """
+    Generates the HTML for the email given the title, list of leaders, leaders'
+    role count (i.e. how many of the roles they have done) and the progress
+    object.
+
+    Uses in-line style attrs since many email clients block script tags.
+    """
+
     # Create string to store HTML
     html = ''
 
@@ -89,8 +92,10 @@ def generateEmail(title, leaders, leaders_role_count, progress):
     return html
 
 
-# Sends the rolemaster report with the given subject line and HTML content.
 def sendEmail(subject_line, content):
+    """
+    Sends the rolemaster report with the given subject line and HTML content.
+    """
 
     # Tells email clients to render the content not as plain text but as HTML
     msg = MIMEMultipart('alternative')
@@ -112,3 +117,6 @@ def sendEmail(subject_line, content):
     # Send the email and close the connection
     smtp.send_message(msg)
     smtp.quit()
+
+    # Indicate success
+    return True
