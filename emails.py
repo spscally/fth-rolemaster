@@ -32,6 +32,7 @@ def generateEmail(title, leaders, leaders_role_count, progress):
 
     # Create progress table + header row
     html += '<h2>Progress</h2>\n'
+    html += f'<p>Sign up for your next role <a href="{secrets.AGENDA_LINK}">here</a>!</p>'
     html += '<table style="border: 1px solid black; text-align: center" rules="all">\n'
     html += '\t<tr>\n'
     html += f'\t\t<th style="padding: {config.PADDING}">Name</th>\n'

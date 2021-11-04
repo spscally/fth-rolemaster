@@ -64,6 +64,9 @@ You will also need to add this account to your club website, so that it is able 
     - having to put the password in this file is why I recommend an account only for this purpose
   - `TO_EMAIL` with the email list of your club (i.e. members-#######@toastmastersclubs.org)
   - `SUPPORT_EMAIL` with the email of the member who is managing the report, so other members can reach out with any questions/comments/etc
+  - `AGENDA_LINK` with the link to the FTH agenda page (i.e. https://yourClubNameHere.toastmastersclubs.org/agenda.html)
+
+In addition to the configuration above, you can add or remove any custom roles in the config.py `ROLES` list. For example, my club also has a "Guest Ambassador" role for being in charge of welcoming guests to the meeting. Any additional custom roles that are added must also be added to the agendas, so that they are present in the downloaded Member Role Report.
 
 ### Input Data
 

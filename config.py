@@ -15,7 +15,8 @@ ROLES = [
     "Table Topics Master",
     "General Evaluator",
     "Evaluator",
-    "Table Topics"
+    "Table Topics",
+    "Guest Ambassador"
 ]
 
 # Padding of various HTML elements in the generated email
