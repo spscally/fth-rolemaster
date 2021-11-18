@@ -8,7 +8,7 @@ import config
 def getMostRecentReportFileName():
     """
     Gets most recent Member Role Report HTML file from reports directory.
-    Assumes YYYY-MM-DD.html file name.    
+    Assumes YYYY-MM-DD.htm file name.
     """
     reports = os.listdir(config.REPORTS_DIR)
     reports.sort()
