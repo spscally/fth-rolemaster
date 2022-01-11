@@ -54,6 +54,8 @@ I recommend creating a dedicated Google account for the purpose of sending out t
 
 You will also need to add this account to your club website, so that it is able to send out an email to any of the club email addresses. Make sure to opt-in after adding the rolemaster account to the club site.
 
+The account will need to have "Less Secure App Access" enabled. This can be done from the Google Account settings under the Security section.
+
 ### Configuration
 
 - in secrets.py, replace:
