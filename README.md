@@ -48,6 +48,10 @@ There are a few things that need to be set up if you are interested in running t
 - account- and club-specific configuration
 - input data
 
+## Program Arguments
+
+- `--test`: generates the report and sends the email to the `SUPPORT_EMAIL` (described below), rather than to the club
+
 ### Email Account Setup
 
 I recommend creating a dedicated Google account for the purpose of sending out this report, as you will have to store your password in the secrets.py configuration file.

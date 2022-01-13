@@ -93,9 +93,11 @@ def generateEmail(title, leaders, leaders_role_count, progress):
     return html
 
 
-def sendEmail(subject_line, content):
+def sendEmail(subject_line, content, test_run):
     """
     Sends the rolemaster report with the given subject line and HTML content.
+
+    Sends the report to the support email if this is a test_run.
     """
 
     # Tells email clients to render the content not as plain text but as HTML
@@ -106,7 +108,11 @@ def sendEmail(subject_line, content):
     # Set subject line, from email, and to email
     msg['Subject'] = subject_line
     msg['From'] = secrets.FROM_EMAIL
-    msg['To'] = secrets.TO_EMAIL
+
+    if test_run == True:
+        msg['To'] = secrets.SUPPORT_EMAIL
+    else:
+        msg['To'] = secrets.TO_EMAIL
 
     # Open connection to Gmail and login
     smtp = smtplib.SMTP('smtp.gmail.com', 587)

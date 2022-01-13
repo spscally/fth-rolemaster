@@ -1,9 +1,15 @@
 import json
 import emails
 import reports
+import sys
 
 from calc import RolemasterCalculator
 
+# Check if this is a test run
+is_test = False
+for _, arg in enumerate(sys.argv):
+    if arg == "--test":
+        is_test = True
 
 # Get the raw contents of the report files
 role_report = reports.getMostRecentReportContents()
@@ -20,7 +26,7 @@ subject = reports.getReportSubjectLine()
 content = emails.generateEmail(subject, leaders, leaders_role_count, progress)
 
 # Send it
-success = emails.sendEmail(subject, content)
+success = emails.sendEmail(subject, content, is_test)
 if success:
     print("Success!")
 else:
