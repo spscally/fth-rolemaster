@@ -175,6 +175,31 @@ class RolemasterCalculator:
             elif role == "Presiding Officer":
                 continue
 
+            # Contest roles have some special rules
+
+            # Contest timers can be counted against the Timer role
+            elif role.find("Timer #") != -1:
+                role = "Timer"
+
+            # Chief Judge and Ballot Counters are not counted
+            elif role.find("Chief Judge") != -1 or role.find("Ballot Counter") != -1:
+                continue
+
+            # Contest Chair can be counted as Toastmaster
+            elif role.find("Contest Chair") != -1:
+                role = "Toastmaster"
+
+            # International and Humorous contestants can be counted as Speakers
+            # TODO: what about Tall Tales?
+            elif role.find("International Speech Contestant") != -1 or role.find("Humorous Speech Contestant") != -1:
+                role = "Speaker"
+
+            # Evaluation Speech Contestants can be counted as Evaluators
+            elif role.find("Speech Evaluation Contestant") != -1:
+                role = "Evaluator"
+
+            # TODO: what about Table Topics Contestants?
+
             # Initialize the role list for this meeting date for this member, if it does not exist
             if self.memberRoles[name].get(date) is None:
                 self.memberRoles[name][date] = []
