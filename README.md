@@ -60,7 +60,7 @@ You will also need to add this account to your club website, so that it is able 
 
 The account will need to have 2-Step Verification enabled. After doing this, you will need to set up an App Password. Both of these steps can be done in the Google Account settings under the Security section.
 
-After this is done, make sure to put the App Password, not the account password into `secrets.py`.
+After this is done, make sure to put the App Password, not the account password, into `secrets.py`.
 
 ### Configuration
 
