@@ -54,11 +54,13 @@ There are a few things that need to be set up if you are interested in running t
 
 ### Email Account Setup
 
-I recommend creating a dedicated Google account for the purpose of sending out this report, as you will have to store your password in the secrets.py configuration file.
+I recommend creating a dedicated Google account for the purpose of sending out this report, as you will have to store your password in the `secrets.py` configuration file.
 
 You will also need to add this account to your club website, so that it is able to send out an email to any of the club email addresses. Make sure to opt-in after adding the rolemaster account to the club site.
 
-The account will need to have "Less Secure App Access" enabled. This can be done from the Google Account settings under the Security section.
+The account will need to have 2-Step Verification enabled. After doing this, you will need to set up an App Password. Both of these steps can be done in the Google Account settings under the Security section.
+
+After this is done, make sure to put the App Password, not the account password, into `secrets.py`.
 
 ### Configuration
 
@@ -72,7 +74,9 @@ The account will need to have "Less Secure App Access" enabled. This can be done
   - `SUPPORT_EMAIL` with the email of the member who is managing the report, so other members can reach out with any questions/comments/etc
   - `AGENDA_LINK` with the link to the FTH agenda page (i.e. https://yourClubNameHere.toastmastersclubs.org/agenda.html)
 
-In addition to the configuration above, you can add or remove any custom roles in the config.py `ROLES` list. For example, my club also has a "Guest Ambassador" role for being in charge of welcoming guests to the meeting. Any additional custom roles that are added must also be added to the agendas, so that they are present in the downloaded Member Role Report.
+In addition to the configuration above, you can add or remove any custom roles in the `config.py` `ROLES` list. For example, my club also has a "Guest Ambassador" role for being in charge of welcoming guests to the meeting. Any additional custom roles that are added must also be added to the agendas, so that they are present in the downloaded Member Role Report.
+
+`config.py` is also where you can enable or disable the `tt.txt` file for tracking Table Topics speakers.
 
 ### Input Data
 

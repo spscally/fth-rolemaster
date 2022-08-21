@@ -37,8 +37,12 @@ def getReportSubjectLine():
 
 def getTableTopics():
     """
-    Get the contents of the tt/tt.txt file, which contains historical TT data.
+    Get the contents of the tt/tt.txt file, which contains historical TT data,
+    but only if TT_IS_USED is set to True.
     """
+    if config.TT_IS_USED is False:
+        return []
+
     with open(f'{config.TT_DIR}/tt.txt') as f:
         lines = f.readlines()
         return lines
