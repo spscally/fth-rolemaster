@@ -167,19 +167,11 @@ class RolemasterCalculator:
             elif role.find("Evaluator #") != -1:
                 role = "Evaluator"
 
-            # Do not track Presiding Officer
-            elif role == "Presiding Officer":
-                continue
-
             # Contest roles have some special rules
 
             # Contest timers can be counted against the Timer role
             elif role.find("Timer #") != -1:
                 role = "Timer"
-
-            # Chief Judge and Ballot Counters are not counted
-            elif role.find("Chief Judge") != -1 or role.find("Ballot Counter") != -1:
-                continue
 
             # Contest Chair can be counted as Toastmaster
             elif role.find("Contest Chair") != -1:
