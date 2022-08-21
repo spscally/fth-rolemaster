@@ -12,8 +12,8 @@ class RolemasterCalculator:
     # Raw contents of the Member Role Report HTML file
     role_report = ''
 
-    # Raw contents of the Table Topics file
-    table_topics = ''
+    # Raw contents of the Table Topics file, as a list of lines
+    table_topics = []
 
     # Stores every role taken for each meeting for each member
     memberRoles = {}
@@ -167,10 +167,6 @@ class RolemasterCalculator:
             elif role.find("Evaluator #") != -1:
                 role = "Evaluator"
 
-            # Change "Table Topics" to "Table Topics Master" to not confuse with Table Topics participant
-            elif role == "Table Topics":
-                role = "Table Topics Master"
-
             # Do not track Presiding Officer
             elif role == "Presiding Officer":
                 continue
@@ -200,6 +196,10 @@ class RolemasterCalculator:
 
             # TODO: what about Table Topics Contestants?
 
+            # Skip the role if it's not in the configured list
+            if role not in config.ROLES:
+                continue
+
             # Initialize the role list for this meeting date for this member, if it does not exist
             if self.memberRoles[name].get(date) is None:
                 self.memberRoles[name][date] = []
@@ -217,8 +217,7 @@ class RolemasterCalculator:
         """
 
         # Get all of the Table Topics lines and loop through them
-        tts = reports.getTableTopics()
-        for tt in tts:
+        for tt in self.table_topics:
 
             # Trim off trailing newline character
             tt = tt.replace('\n', '')
@@ -240,8 +239,8 @@ class RolemasterCalculator:
             if self.memberRoles[name].get(date) is None:
                 self.memberRoles[name][date] = []
 
-            # Add Table Topics to the role list.
-            self.memberRoles[name][date].append("Table Topics")
+            # Add Table Topics speaker to the role list.
+            self.memberRoles[name][date].append(config.TT_DISPLAY_ROLE)
 
     def __addMissingRoles(self):
         """
